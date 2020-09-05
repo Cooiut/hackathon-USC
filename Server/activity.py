@@ -37,6 +37,15 @@ class Activity:
     def new_activity(cls, name, info, durations, frequency):
         return cls(rand_id(), name, info, durations, {}, frequency, []).__save()
 
+    @classmethod
+    def load_from_db(cls, id):
+        try:
+            d = json.load(open(f'data/activities/{id}.json', 'r', encoding='utf-8'))
+            return cls(**d)
+        except IOError:
+            pass
+        return None
+
     def user_join(self, user):
         self.users[user] = (1, [0 for i in range(self.duration / self.frequency)])
         return self.__save()
@@ -50,19 +59,29 @@ class Activity:
     def checkin(self, user, emotion, text, image):
         # 生成时间戳更新self.users
         # 相关数据插入
-        pass
-        # TODO
+        if (datetime.datetime.today() - self.start_time).days % self.frequency != 0:
+            return "Error!"
+        today = (datetime.datetime.today() - self.start_time).days % self.frequency
+        self.users[user][1][today] = 1
+        self.forum.insert(0, (user, datetime.datetime.today(), emotion, text, image, 0))
+        return self.__save()
 
     def report(self, user):
-        pass
-        # TODO
+        return self.start_time, self.users[user][1]
+
 
     def like(self, num_of_forum):
         # 第n个forum点赞 +1
-        pass
+        self.forum[num_of_forum][-1] += 1
+        return self.__save()
 
     # 废弃: check expiration
 
+    def get_detail(self, user):
+        return [self.act_id, self.name, user in self.users, self.info, self.frequency, len(self.users), self.forum]
+
+    def get_id(self):
+        return self.act_id
 
 if __name__ == '__main__':
     print(rand_id())
