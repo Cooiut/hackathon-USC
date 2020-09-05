@@ -26,7 +26,7 @@ def unauthorized():
     })
 
 
-@apis_blueprint.route('/login/', methods=['GET', 'POST'])
+@apis_blueprint.route('/login/', methods=['POST'])
 def login():
     """
     {"username": str, "password": str}
