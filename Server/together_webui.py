@@ -9,6 +9,11 @@ def activity_page():
     return flask.send_from_directory('WebUI', 'activity_list.html')
 
 
+@webui_blueprint.route('/schedule/')
+def schedule_page():
+    return flask.send_from_directory('WebUI', 'schedule.html')
+
+
 @webui_blueprint.route('/login/')
 def login_page():
     return flask.send_from_directory('WebUI', 'login.html')
