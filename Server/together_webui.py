@@ -5,8 +5,8 @@ webui_blueprint = flask.Blueprint('together_webui', __name__, url_prefix='/', st
 
 
 @webui_blueprint.route('/activity_list/')
-def login_page():
-    return flask.send_from_directory('WebUI', 'activity_list.css')
+def activity_page():
+    return flask.send_from_directory('WebUI', 'activity_list.html')
 
 
 @webui_blueprint.route('/login/')
