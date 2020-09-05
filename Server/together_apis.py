@@ -81,7 +81,6 @@ def user_getinfo():
         return json.dumps({
             'status': 'ok',
             'username': user.get_id()
-
         })
     except Exception as e:
         return json.dumps({
