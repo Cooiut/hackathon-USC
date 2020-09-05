@@ -41,7 +41,7 @@ class Activity:
         if username in self.users.keys():
             print("You have already enrolled in this activity!")
         else:
-            self.users[username] = [datetime.datetime.today() + datetime.timedelta(days=self.frequency), self.duration]
+            self.users[username] = [datetime.datetime.today(), datetime.datetime.today() + datetime.timedelta(days=self.frequency), self.duration]
         return self.__save()
 
     def remove_user(self, username):
