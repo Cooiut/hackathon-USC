@@ -25,7 +25,7 @@ class Activity:
     @classmethod
     def load_from_db(cls, act_id):
         try:
-            d = json.load(open(f'data/chatrooms/{act_id}.json', 'r', encoding='utf-8'))
+            d = json.load(open(f'data/activities/{act_id}.json', 'r', encoding='utf-8'))
             return cls(**d)
         except IOError:
             pass
@@ -33,7 +33,7 @@ class Activity:
 
     @classmethod
     def new_activity(cls, act_id, name, info, durations, frequency):
-        if not os.path.exists(f'data/chatrooms/{act_id}.json'):
+        if not os.path.exists(f'data/activities/{act_id}.json'):
             return cls(random.randint(0, 1000), name, info, durations, {}, frequency).__save()
         return None
 
