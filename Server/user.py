@@ -6,11 +6,13 @@ import os.path
 class User(flask_login.UserMixin):
     INIT_BALANCE = 100
 
-    def __init__(self, username, pswd, balance, activities):
+    def __init__(self, username, pswd, balance, activities, avatar):
         self.username = username
         self.pswd = pswd
         self.balance = balance
-        self.activities = activities
+        self.activities = activities # [(name, freq, total people)]
+                                     # 现在不考虑人数变动
+        self.avatar = avatar
 
     def __save(self):
         json.dump(self.__dict__,
@@ -35,11 +37,21 @@ class User(flask_login.UserMixin):
     @classmethod
     def new_user(cls, username, pswd):
         if not os.path.exists(f'data/users/{username}.json'):
-            return cls(username, cls.__parse_pswd(pswd), cls.INIT_BALANCE, []).__save()
+            return cls(username, cls.__parse_pswd(pswd), cls.INIT_BALANCE, [], 'default_avatar ').__save()
         return None
 
     def get_id(self):
         return self.username
+
+    def get_balance(self):
+        return self.balance
+
+    def get_avatar(self):
+        return self.avatar
+
+    def get_activities(self):
+        return self.activities
+
 
 
 if __name__ == '__main__':

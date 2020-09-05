@@ -2,6 +2,7 @@ import flask
 import flask_login
 import json
 
+from activity import Activity
 from user import User
 
 apis_blueprint = flask.Blueprint('together_apis', __name__, url_prefix='/api/')
@@ -82,6 +83,60 @@ def user_getinfo():
             'status': 'error',
             'message': str(e)
         })
+
+
+@apis_blueprint.route('/activity/new/')
+@flask_login.login_required
+def new_activity():
+    # 客户端提供name, info, durations，frequency
+    # TODO  Activity.new_activity(.....)
+    pass
+
+
+@apis_blueprint.route('/activity/detail/')
+@flask_login.login_required
+def get_activity_detail():
+    # 客户端不提供信息，username通过login manager调取，
+    # 服务端回报所有信息
+    # TODO
+    pass
+
+
+@apis_blueprint.route('/activity/checkin/')
+@flask_login.login_required
+def checkin():
+    # 客户端提供activity名，心情，文字，图片
+    # 服务器端根据时间戳更新具体activity class
+    # 回报成功与否
+    pass
+
+
+@apis_blueprint.route('/activity/like/')
+@flask_login.login_required
+def like():
+    # 客户端提供第n个
+    pass
+
+
+@apis_blueprint.route('/activity/recommend/')
+@flask_login.login_required
+def get_recommend():
+    # 从所有的activity中随机挑三个，
+    # 返回title，freq，total num
+    # TODO
+    pass
+
+
+@apis_blueprint.route('/chat/get/')
+@flask_login.login_required
+def get_chat():
+    pass
+
+
+@apis_blueprint.route('/chat/post/')
+@flask_login.login_required
+def post_chat():
+    pass
 
 
 if __name__ == '__main__':
