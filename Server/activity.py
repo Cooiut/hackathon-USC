@@ -29,7 +29,7 @@ class Activity:
 
     def __save(self):
         json.dump(self.__dict__,
-                  open(f'data/activities/{self.act_id}.json', 'w', encoding='utf-8')
+                  open(f'data/activities/{self.act_id}.json', 'w', encoding='utf-8'), default=str, ensure_ascii=False
                   )
         return self
 
@@ -47,7 +47,8 @@ class Activity:
         return None
 
     def user_join(self, user):
-        self.users[user] = (1, [0 for i in range(self.duration / self.frequency)])
+        self.users[user.get_id()] = (1, [0 for i in range(self.duration // self.frequency)])
+        user.join_activity(self.act_id)
         return self.__save()
 
     # TODO 这东西先不做没时间
@@ -68,7 +69,6 @@ class Activity:
 
     def report(self, user):
         return self.start_time, self.users[user][1]
-
 
     def like(self, num_of_forum):
         # 第n个forum点赞 +1

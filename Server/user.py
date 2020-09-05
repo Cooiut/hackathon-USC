@@ -10,8 +10,8 @@ class User(flask_login.UserMixin):
         self.username = username
         self.pswd = pswd
         self.balance = balance
-        self.activities = activities # [(name, freq, total people)]
-                                     # 现在不考虑人数变动
+        self.activities = activities  # [(name, freq, total people)]
+        # 现在不考虑人数变动
         self.avatar = avatar
 
     def __save(self):
@@ -52,6 +52,9 @@ class User(flask_login.UserMixin):
     def get_activities(self):
         return self.activities
 
+    def join_activity(self, act_id):
+        self.activities.append(act_id)
+        return self.__save()
 
 
 if __name__ == '__main__':
