@@ -7,12 +7,12 @@ import os.path
 
 
 class Activity:
-    # 指向聊天和论坛id?
-    def __init__(self, act_id, name, info, duration, users, frequency):
+    def __init__(self, act_id, name, info, duration, curr_users, auth_users, frequency):
         self.act_id = act_id
         self.name = name
         self.info = info
-        self.users = users
+        self.curr_users = curr_users
+        self.auth_users = auth_users
         self.duration = duration
         self.frequency = frequency  # per day or week
 
@@ -23,26 +23,18 @@ class Activity:
         return self
 
     @classmethod
-    def load_from_db(cls, act_id):
-        try:
-            d = json.load(open(f'data/activities/{act_id}.json', 'r', encoding='utf-8'))
-            return cls(**d)
-        except IOError:
-            pass
-        return None
+    def new_activity(cls, name, info, durations, frequency):
 
-    @classmethod
-    def new_activity(cls, act_id, name, info, durations, frequency):
-        if not os.path.exists(f'data/activities/{act_id}.json'):
-            return cls(random.randint(0, 1000), name, info, durations, {}, frequency).__save()
-        return None
+        return cls(random.randint(0, 1000), name, info, durations, {}, frequency).__save()
 
     def add_user(self, username):
         if username in self.users.keys():
             print("You have already enrolled in this activity!")
         else:
-            self.users[username] = [datetime.datetime.today(), datetime.datetime.today() + datetime.timedelta(days=self.frequency), self.duration]
+            self.users[username] = [datetime.datetime.today() + datetime.timedelta(days=self.frequency), self.duration]
         return self.__save()
+
+    # TODO
 
     def remove_user(self, username):
         self.users.pop(username)
@@ -57,9 +49,16 @@ class Activity:
             print("完成打卡！")
         return self.__save()
 
+    # TODO
+
     def check(self):
         for x in self.users:
             if datetime.datetime.today() > self.users[x][0]:
                 print("错过打卡！")
                 self.remove_user(x)
         return self.__save()
+    # TODO
+
+
+if __name__ == '__main__':
+    print(rand_id())

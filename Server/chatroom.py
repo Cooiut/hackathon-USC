@@ -41,4 +41,3 @@ class Chatroom:
             return self.contents[
                    bisect.bisect_right(self.contents, [starttime, '', '']):
                    ]
-
