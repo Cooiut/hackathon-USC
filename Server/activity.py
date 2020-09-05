@@ -23,9 +23,19 @@ class Activity:
         return self
 
     @classmethod
-    def new_activity(cls, name, info, durations, frequency):
+    def load_from_db(cls, act_id):
+        try:
+            d = json.load(open(f'data/activities/{act_id}.json', 'r', encoding='utf-8'))
+            return cls(**d)
+        except IOError:
+            pass
+        return None
 
-        return cls(random.randint(0, 1000), name, info, durations, {}, frequency).__save()
+    @classmethod
+    def new_activity(cls, act_id, name, info, durations, frequency):
+        if not os.path.exists(f'data/activities/{act_id}.json'):
+            return cls(random.randint(0, 1000), name, info, durations, {}, frequency).__save()
+        return None
 
     def add_user(self, username):
         if username in self.users.keys():
@@ -53,5 +63,3 @@ class Activity:
                 print("错过打卡！")
                 self.remove_user(x)
         return self.__save()
-
-
