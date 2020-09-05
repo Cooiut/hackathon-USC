@@ -23,10 +23,10 @@ class User(flask_login.UserMixin):
         return pswd
 
     @classmethod
-    def load_from_db(cls, username, pswd):
+    def load_from_db(cls, username, pswd=None):
         try:
             d = json.load(open(f'data/users/{username}.json', 'r', encoding='utf-8'))
-            if cls.__parse_pswd(pswd) == d['pswd']:
+            if pswd is None or cls.__parse_pswd(pswd) == d['pswd']:
                 return cls(**d)
         except IOError:
             pass
@@ -37,6 +37,9 @@ class User(flask_login.UserMixin):
         if not os.path.exists(f'data/users/{username}.json'):
             return cls(username, cls.__parse_pswd(pswd), cls.INIT_BALANCE, []).__save()
         return None
+
+    def get_id(self):
+        return self.username
 
 
 if __name__ == '__main__':
