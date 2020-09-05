@@ -1,3 +1,7 @@
+'''
+abandoned
+
+
 import json
 import os
 import time
@@ -71,4 +75,5 @@ class Forum:
         return self.__save()
 
     def get_forum(self):
-        return  # todo
+        return
+'''
