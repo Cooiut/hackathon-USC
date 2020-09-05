@@ -1,1 +1,7 @@
-{"username": "test", "pswd": "test123", "balance": 100, "activities": []}
+{
+  "username": "test",
+  "pswd": "test123",
+  "balance": 100,
+  "activities": [],
+  "avatar": "default_avatar "
+}

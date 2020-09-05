@@ -89,6 +89,20 @@ def user_getinfo():
         })
 
 
+@apis_blueprint.route('/user/getnum/')
+def user_getnum():
+    try:
+        return json.dumps({
+            'status': 'ok',
+            'total': len(os.listdir('data/users'))
+        })
+    except Exception as e:
+        return json.dumps({
+            'status': 'error',
+            'message': str(e)
+        })
+
+
 @apis_blueprint.route('/activity/new/')
 @flask_login.login_required
 def new_activity():
@@ -222,7 +236,7 @@ def get_chat():
         starttime = flask.request.form['starttime']
         return json.dumps({
             'status': 'ok',
-            'message': str(Chatroom.load_from_db(act_id).get_chat())
+            'message': str(Chatroom.load_from_db(act_id).get_chat(starttime))
         })
     except Exception as e:
         return json.dumps({
