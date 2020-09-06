@@ -158,3 +158,42 @@ body {
     top: 70%;
     left: 10%;
 }
+
+#goods {
+    position: relative;
+    top: 15vh;
+    height: 60vh;
+    overflow-y: scroll;
+}
+
+.good-item {
+    position: relative;
+    margin: auto auto 5vh;
+    width: 70vw;
+    height: 18vh;
+    background: white;
+    color: black;
+    border-radius: 3vh;
+    font-size: 5vw;
+}
+
+.good-item p {
+    position: relative;
+    top: 3vh;
+    right: 5vh;
+    text-align: right;
+}
+
+.good-item p:last-of-type {
+    color: #226aed;
+}
+
+.good-icon {
+    width: 10vh;
+    height: 10vh;
+    background: url("../img/good-icon.png") no-repeat center;
+    background-size: cover;
+    position: absolute;
+    top: 4vh;
+    left: 4vh;
+}
