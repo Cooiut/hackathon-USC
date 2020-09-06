@@ -1,5 +1,3 @@
-let login_mode = false;
-
 let BASE_URL = "/";
 
 $.ajax({
@@ -16,7 +14,18 @@ $.ajax({
     url: BASE_URL + "api/user/getnum",
     method: "GET",
     success: (resp) => {
-        $('#total-user-num').html(JSON.parse(resp)['total'])
+        $('#total-user-num').html(JSON.parse(resp)['total']);
     }
 })
 
+$.ajax({
+    url: BASE_URL + "api/user/enrolled_detail",
+    method: "GET",
+    success: (resp) => {
+        resp = JSON.parse(resp);
+        for (let act_id of resp["act_ids"]) {
+            console.log(act_id);
+            $.ajax()
+        }
+    }
+})
