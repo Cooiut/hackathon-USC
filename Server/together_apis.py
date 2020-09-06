@@ -1,3 +1,4 @@
+import datetime
 import os
 
 import flask
@@ -113,7 +114,7 @@ def new_activity():
         info = flask.request.form['info']
         duration = flask.request.form['duration']
         frequency = flask.request.form['frequency']
-        act = Activity.new_activity(name, info, duration, frequency)
+        act = Activity.new_activity(name, info, duration, frequency, '{}'.format(datetime.datetime.now()))
         Chatroom.new_chat(act.get_id())
         return json.dumps({
             'status': 'ok',
@@ -135,7 +136,7 @@ def get_user_enrolled_detail():
         user = flask_login.current_user
         return json.dumps({
             'status': 'ok',
-            'message': user.get_activities()
+            'act_ids': user.get_activities()
         })
     except Exception as e:
         return json.dumps({
