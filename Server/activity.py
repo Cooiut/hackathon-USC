@@ -48,7 +48,7 @@ class Activity:
         return None
 
     def user_join(self, user):
-        self.users[user.get_id()] = (1, [0 for i in range(self.duration // self.frequency)])
+        self.users[user.get_id()] = (1, [0 for i in range(int(self.duration) // int(self.frequency))])
         user.join_activity(self.act_id)
         return self.__save()
 
@@ -62,9 +62,9 @@ class Activity:
         # 生成时间戳更新self.users
         # 相关数据插入
         date_time_obj = datetime.datetime.strptime(self.start_time, '%Y-%m-%d %H:%M:%S.%f')
-        if (datetime.datetime.today() - date_time_obj).days % self.frequency != 0:
+        if (datetime.datetime.today() - date_time_obj).days % int(self.frequency) != 0:
             return "Error!"
-        today = (datetime.datetime.today() - date_time_obj).days % self.frequency
+        today = (datetime.datetime.today() - date_time_obj).days % int(self.frequency)
         self.users[user][1][today] = 1
         self.forum.insert(0, (user, datetime.datetime.today(), emotion, text, image, 0))
         return self.__save()

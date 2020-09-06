@@ -14,7 +14,4 @@ app.register_blueprint(apis_blueprint)
 app.register_blueprint(webui_blueprint)
 
 if __name__ == '__main__':
-    from activity import Activity
-
-    Activity.load_from_db('rvj5p9')
     app.run(HOST, PORT)

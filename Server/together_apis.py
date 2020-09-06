@@ -110,10 +110,10 @@ def new_activity():
     # 客户端提供name, info, durations，frequency
     # TODO  Activity.new_activity(.....)
     try:
-        name = flask.request.form['name']
-        info = flask.request.form['info']
-        duration = flask.request.form['duration']
-        frequency = flask.request.form['frequency']
+        name = flask.request.args['name']
+        info = flask.request.args['info']
+        duration = flask.request.args['duration']
+        frequency = flask.request.args['frequency']
         act = Activity.new_activity(name, info, duration, frequency, '{}'.format(datetime.datetime.now()))
         Chatroom.new_chat(act.get_id())
         return json.dumps({
@@ -124,6 +124,8 @@ def new_activity():
             'status': 'error',
             'message': str(e)
         })
+
+    # 少一个enroll
 
 
 @apis_blueprint.route('/user/enrolled_detail/')
@@ -172,10 +174,10 @@ def checkin():
     # 服务器端根据时间戳更新具体activity class
     # 回报成功与否
     try:
-        id = flask.request.form['id']
-        emo = flask.request.form['emo']
-        text = flask.request.form['text']
-        pic = flask.request.form['pic']
+        id = flask.request.args['id']
+        emo = flask.request.args['emo']
+        text = flask.request.args['text']
+        pic = flask.request.args['pic']
         user = flask_login.current_user.get_id()
         act = Activity.load_from_db(id)
         act.checkin(user, emo, text, pic)
@@ -188,14 +190,15 @@ def checkin():
             'message': str(e)
         })
 
+
 @apis_blueprint.route('/activity/like/')
 @flask_login.login_required
 def like():
     try:
-        id = flask.request.form['id']
-        n = flask.request.form['n']
+        id = flask.request.args['id']
+        n = flask.request.args['n']
         act = Activity.load_from_db(id)
-        act.like(n)
+        act.like(int(n))
         return json.dumps({
             'status': 'ok'
         })
@@ -228,12 +231,13 @@ def get_recommend():
             'message': str(e)
         })
 
+
 @apis_blueprint.route('/chat/get/')
 @flask_login.login_required
 def get_chat():
     try:
-        act_id = flask.request.form['id']
-        starttime = flask.request.form['starttime']
+        act_id = flask.request.args['id']
+        starttime = flask.request.args['starttime']
         return json.dumps({
             'status': 'ok',
             'message': str(Chatroom.load_from_db(act_id).get_chat(starttime))
