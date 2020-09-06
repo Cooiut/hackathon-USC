@@ -131,12 +131,11 @@ def get_user_enrolled_detail():
     # 客户端不提供信息，username通过login manager调取，
     # 回报所有当前参加的活动
     # id, name, freq, total_people
-
     try:
         user = flask_login.current_user
         return json.dumps({
             'status': 'ok',
-            'message': str(user.get_activities())
+            'message': user.get_activities()
         })
     except Exception as e:
         return json.dumps({
@@ -151,12 +150,12 @@ def get_activity_detail():
     # 客户端提供id
     # 服务端回报所有信息
     try:
-        id = flask.request.form['id']
+        id = flask.request.args['id']
         user = flask_login.current_user
         act = Activity.load_from_db(id)
         return json.dumps({
             'status': 'ok',
-            'message': str(act.get_detail(user.get_id()))
+            'message': act.get_detail(user.get_id())
         })
     except Exception as e:
         return json.dumps({
